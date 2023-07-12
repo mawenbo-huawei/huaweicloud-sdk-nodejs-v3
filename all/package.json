@@ -1,6 +1,6 @@
 {
   "name": "@huaweicloud/huaweicloud-sdk-all",
-  "version": "productVersion",
+  "version": "3.1.45",
   "description": "Huawei Cloud SDK for Node.js includes all cloud services",
   "repository": {
     "type": "git",
