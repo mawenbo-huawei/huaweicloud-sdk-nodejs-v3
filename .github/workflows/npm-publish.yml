@@ -7,6 +7,12 @@ on:
         required: true
         default: true
         type: boolean
+      ignore_publish_failed:
+        description: 'ignore publish failed, not exit'
+        required: true
+        default: false
+        type: boolean
+
   release:
     types: [created]
 jobs:
@@ -26,6 +32,7 @@ jobs:
           npm config set email ${{ vars.SDK_EMAIL }}
           npm config set //registry.npmjs.org/:_authToken "${{ secrets.AUTH_TOKEN }}"
       - name: Compile projects
+        shell: bash
         run: |
           for service in `ls "${GITHUB_WORKSPACE}/services"`
           do
@@ -45,15 +52,12 @@ jobs:
           done
           cd "${GITHUB_WORKSPACE}" || exit 1
           tsc || true
-        shell: bash
       - name: Publish package
+        shell: bash
         run: |
-          if [[ "${{ inputs.dry_run }}" == "true" ]]
-          then
-            npm_publish='npm publish --access public --dry-run true'
-          else
-            npm_publish='npm publish --access public'
-          fi
+          publish="npm publish --access public"
+          if [[ "${{ inputs.dry_run }}" == "true" ]]; then publish="${publish} --dry-run true"; fi
+          if [[ "${{ inputs.ignore_publish_failed }}" == "true" ]]; then publish="${publish} || true"; fi
           version=$(grep -oP '(?<="version": ")[^"]+' "${GITHUB_WORKSPACE}/package.json")
           cd "${GITHUB_WORKSPACE}/core" || exit 1
           find "${GITHUB_WORKSPACE}" -maxdepth 1 -mindepth 1 -type f -exec cp {} . \;
@@ -68,4 +72,3 @@ jobs:
           done
           cd "${GITHUB_WORKSPACE}/all" || exit 1
           $npm_publish
-        shell: bash
