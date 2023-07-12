@@ -64,6 +64,7 @@ jobs:
             echo -e "{\n  \"name\": \"@huaweicloud/huaweicloud-sdk-${each}\",\n  \"version\": \"${version}\",\n  \"description\": \"Huaweicloud SDK for ${each}\",\n  \"main\": \"huaweicloud-sdk-${each}.js\",\n  \"typings\": \"huaweicloud-sdk-${each}.d.ts\",\n  \"scripts\": {\n    \"test\": \"echo \\\"Error: no test specified\\\" && exit 1\"\n  },\n  \"repository\": {\n    \"type\": \"git\",\n    \"url\": \"https://github.com/huaweicloud-sdk/huaweicloud-sdk-nodejs\"\n  },\n  \"author\": \"HuaweiCloud_SDK\",\n  \"license\": \"Apache-2.0\",\n  \"dependencies\": {\n    \"@huaweicloud/huaweicloud-sdk-core\": \"^${version}\"\n  }" >> package.json
             "$npm_publish"
             cd - || exit 1
+          done
           cd "${GITHUB_WORKSPACE}/all" || exit 1
           "$npm_publish"
         shell: bash
