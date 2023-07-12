@@ -55,9 +55,9 @@ jobs:
       - name: Publish package
         shell: bash
         run: |
-          publish="npm publish --access public"
-          if [[ "${{ inputs.dry_run }}" == "true" ]]; then publish="${publish} --dry-run true"; fi
-          if [[ "${{ inputs.ignore_publish_failed }}" == "true" ]]; then publish="${publish} || true"; fi
+          npm_publish="npm publish --access public"
+          if [[ "${{ inputs.dry_run }}" == "true" ]]; then npm_publish="${npm_publish} --dry-run true"; fi
+          if [[ "${{ inputs.ignore_publish_failed }}" == "true" ]]; then npm_publish="${npm_publish} || true"; fi
           version=$(grep -oP '(?<="version": ")[^"]+' "${GITHUB_WORKSPACE}/package.json")
           cd "${GITHUB_WORKSPACE}/core" || exit 1
           find "${GITHUB_WORKSPACE}" -maxdepth 1 -mindepth 1 -type f -exec cp {} . \;
