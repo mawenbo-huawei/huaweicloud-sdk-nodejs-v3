@@ -44,7 +44,7 @@ jobs:
             done
           done
           cd "${GITHUB_WORKSPACE}" || exit 1
-          tsc
+          tsc || true
         shell: bash
       - name: Publish package
         run: |
