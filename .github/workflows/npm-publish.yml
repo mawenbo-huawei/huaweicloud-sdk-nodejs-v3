@@ -65,6 +65,4 @@ jobs:
             "$npm_publish"
             cd - || exit 1
           done
-          cd "${GITHUB_WORKSPACE}/all" || exit 1
-          "$npm_publish"
         shell: bash
